@@ -1,0 +1,4 @@
+apt update
+apt upgrade -y
+wget https://product-downloads.atlassian.com/software/confluence/downloads/atlassian-confluence-7.15.0-x64.bin
+chmod +x atlassian-confluence-7.15.0-x64.bin
