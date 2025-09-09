@@ -1,4 +1,10 @@
-apt update
-apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
+sudo apt install openjdk-11-jdk -y
+java -version
 wget https://product-downloads.atlassian.com/software/confluence/downloads/atlassian-confluence-7.15.0-x64.bin
 chmod +x atlassian-confluence-7.15.0-x64.bin
+# We must scp attlasian-agent to recent server
+
+
+
