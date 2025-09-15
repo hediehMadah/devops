@@ -3,9 +3,12 @@ sudo apt upgrade -y
 sudo apt install openjdk-11-jdk -y
 java -version
 wget https://product-downloads.atlassian.com/software/confluence/downloads/atlassian-confluence-7.15.0-x64.bin
+mv atlassian-confluence-7.15.0-x64.bin /opt/atlassian/confluence
 chmod +x atlassian-confluence-7.15.0-x64.bin
-ssh <your-destination-ip> -l<user>
+./atlassian-confluence-7.15.0-x64.bin
+
 # We must scp attlasian-agent to recent server
+ssh <your-destination-ip> -l<user>
 rsync -avz --progress ~/atlassian* root@<your-destination-ip>:/<your-path>
 opt/atlassian/confluence/jre/bin/java -jar /opt/atlassian/atlassian-agent/atlassian-agent.jar -m <your-email> -o Confluence -p conf -s <id-server-confluence>
 
