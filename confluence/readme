@@ -1,0 +1,14 @@
+Jira        atlassian-extras-x.x.x.jar
+Confluence  atlassian-extras-decoder-x.x.x.jar
+Bitbucket   atlassian-extras-decoder-x.x.x.jar
+Crowd       atlassian-extras-x.x.x.jar
+
+
+
+vim /etc/atlassian/jira/bin/setenv.sh
+JAVA_OPTS="-javaagent:/opt/atlassian/atlassian-agent/atlassian-agent.jar ${JAVA_OPTS}"
+export JAVA_OPTS
+
+vim /etc/atlassian/confluence/bin/setenv.sh
+JAVA_OPTS="-javaagent:/opt/atlassian/atlassian-agent/atlassian-agent.jar ${CATALINA_OPTS}"
+export CATALINA_OPTS
