@@ -1,4 +1,4 @@
-######install confluence-7.15.0 with memory 4 and cpu 2
+######install confluence-7.15.0 with memory 4 and cpu 2 with external database
 sudo apt update
 sudo apt upgrade -y
 sudo apt install openjdk-11-jdk -y
