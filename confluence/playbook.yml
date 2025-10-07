@@ -1,0 +1,76 @@
+---
+- name: Install Confluence 7.15.0
+  hosts: all
+  become: yes
+  vars:
+    confluence_version: "7.15.0"
+    confluence_install_dir: "/opt/atlassian/confluence"
+    confluence_bin: "atlassian-confluence-{{ confluence_version }}-x64.bin"
+    db_user: "<db_user>"
+    db_password: "<db_password>"
+    db_name: "<db_name>"
+    db_host: "<db_host>"
+    
+  tasks:
+    - name: Update APT packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install Java OpenJDK 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Check Java version
+      command: java -version
+      register: java_version
+      ignore_errors: yes
+
+    - name: Download Confluence Installer
+      get_url:
+        url: "https://product-downloads.atlassian.com/software/confluence/downloads/{{ confluence_bin }}"
+        dest: "/tmp/{{ confluence_bin }}"
+
+    - name: Move Confluence Installer to Installation Directory
+      command: mv /tmp/{{ confluence_bin }} {{ confluence_install_dir }}
+      args:
+        removes: "/tmp/{{ confluence_bin }}"
+
+    - name: Change permissions on Confluence Installer
+      file:
+        path: "{{ confluence_install_dir }}/{{ confluence_bin }}"
+        mode: '0755'
+
+    - name: Install Confluence
+      command: "./{{ confluence_bin }}"
+      args:
+        chdir: "{{ confluence_install_dir }}"
+    
+    - name: Copy Atlassian Agent to Destination Server
+      synchronize:
+        mode: push
+        src: "~/atlassian*"
+        dest: "root@{{ destination_ip }}:/{{ your_path }}"
+    
+    - name: Run Atlassian Agent
+      command: "opt/atlassian/confluence/jre/bin/java -jar /opt/atlassian/atlassian-agent/atlassian-agent.jar -m {{ your_email }} -o Confluence -p conf -s {{ id_server_confluence }}"
+      register: agent_output
+
+    - name: Debug or display agent_output
+      debug:
+        var: agent_output.stdout_lines
+
+    - name: Backup Confluence Configuration if installation failed
+      command: mv /var/atlassian/application-data/confluence.cfg.xml /var/atlassian/application-data/confluence.cfg.xml.bk
+      when: agent_output.rc != 0
+
+    - name: Create new database if installation failed
+      command: >
+        psql -U {{ db_user }} -h {{ db_host }} -c "CREATE DATABASE {{ db_name }};"
+      when: agent_output.rc != 0
+
+    - name: Notify if installation fails
+      debug:
+        msg: "Please check the installation logs if you encountered any issues."
+      when: agent_output.rc != 0
