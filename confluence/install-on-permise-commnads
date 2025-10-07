@@ -1,3 +1,4 @@
+######install confluence-7.15.0 with memory 4 and cpu 2
 sudo apt update
 sudo apt upgrade -y
 sudo apt install openjdk-11-jdk -y
@@ -11,5 +12,9 @@ chmod +x atlassian-confluence-7.15.0-x64.bin
 ssh <your-destination-ip> -l<user>
 rsync -avz --progress ~/atlassian* root@<your-destination-ip>:/<your-path>
 opt/atlassian/confluence/jre/bin/java -jar /opt/atlassian/atlassian-agent/atlassian-agent.jar -m <your-email> -o Confluence -p conf -s <id-server-confluence>
+copy output of blow line because next step you must enter your license
 #############
 After that you are going to browser and next step
+if in the stallation you have problem and need to go back on the first step
+you must change /var/atlassian/application-data/confluence.cfg.xml & /var/atlassian/application-data/shared-home/confluence.cfg.xml to another name
+such as /var/atlassian/application-data/confluence.cfg.xml.bk
