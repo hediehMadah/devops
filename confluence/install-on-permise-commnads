@@ -18,3 +18,6 @@ After that you are going to browser and next step
 if in the stallation you have problem and need to go back on the first step
 you must change /var/atlassian/application-data/confluence.cfg.xml & /var/atlassian/application-data/shared-home/confluence.cfg.xml to another name
 such as /var/atlassian/application-data/confluence.cfg.xml.bk
+##############
+if your installation failed you must create new database 
+dont use last one because appeared many error
