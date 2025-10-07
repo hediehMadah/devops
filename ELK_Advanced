@@ -1,0 +1,11 @@
+This yaml file containing 
+MSSQL_Server
+RabbitMQ
+Vault
+Ca_Server
+ElasticSearch
+Kibana
+LogStash
+FileBeat
+AuditBeat
+MetricBeat
